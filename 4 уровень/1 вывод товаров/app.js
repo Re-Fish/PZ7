@@ -9,6 +9,12 @@
     <a href="https://example.com/producs/${здесь_id_товара}">Подробнее</a>
 </div>
 */
+let productsList = document.querySelector('.products');
+let buttons = document.querySelectorAll('button');
+
+buttons.forEach(button => {
+    button.addEventListener('click', event => clickHandler(event));
+});
 
 const products = {
     phones: [
@@ -82,10 +88,10 @@ const products = {
  */
 function clickHandler(event) {
     //вам нужно очищать содержимое .products
-    
+    productsList.innerHTML = '';
     //в showCategory надо передать строку с типом категории, тип берите
     //из атрибута data-type у кнопки, по которой кликнули.
-    
+    showCategory(event.target.dataset.type);
 }
 
 /**
@@ -96,7 +102,9 @@ function clickHandler(event) {
  * по которой кликнули.
  */
 function showCategory(category) {
-    
+    for (let i = 0; i < products[category].length; i++) {
+        productsList.innerHTML += getProductMarkup(products[category][i]);
+    }
 }
 
 /**
@@ -109,5 +117,10 @@ function showCategory(category) {
  * в верху этого файла.
  */
 function getProductMarkup(product) {
-
+    return `<div class="product">
+    <div>${product.name}</div>
+    <img src="${product.imageUrl}" alt="">
+    <div>${product.price}</div>
+    <a href="https://example.com/producs/${product.id}">Подробнее</a>
+    </div>`;
 }
